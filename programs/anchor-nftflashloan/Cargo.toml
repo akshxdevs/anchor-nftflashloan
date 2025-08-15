@@ -10,6 +10,9 @@ name = "anchor_nftflashloan"
 
 [features]
 default = []
+anchor-debug = []
+custom-heap = []
+custom-panic = []
 cpi = ["no-entrypoint"]
 no-entrypoint = []
 no-idl = []
