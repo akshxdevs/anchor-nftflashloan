@@ -9,8 +9,6 @@ declare_id!("H6jEh2UbEn4y4LzjYi8ZB4WP7nPUMFVmcpZJ8rbwQepa");
 #[program]
 pub mod anchor_nftflashloan {
     use super::*;
-
-    /// Initialize the program configuration
     pub fn initialize(
         ctx: Context<Initialize>,
         fees_bps: u16,
@@ -27,15 +25,11 @@ pub mod anchor_nftflashloan {
         msg!("Program initialized with admin: {}", config.admin);
         Ok(())
     }
-
-    /// Set the fee basis points (only admin)
     pub fn set_fee_bps(ctx: Context<SetFeeBps>, new_fee_bps: u16) -> Result<()> {
         ctx.accounts.config.fee_bps = new_fee_bps;
         msg!("Fee BPS updated to: {}", new_fee_bps);
         Ok(())
     }
-
-    /// Set the merkle root for whitelist (only admin)
     pub fn set_merkle_root(
         ctx: Context<SetMerkleRoot>,
         merkle_root: Option<[u8; 32]>,
@@ -44,15 +38,11 @@ pub mod anchor_nftflashloan {
         msg!("Merkle root updated");
         Ok(())
     }
-
-    /// Set paused state (only admin)
     pub fn set_paused(ctx: Context<SetPaused>, paused: bool) -> Result<()> {
         ctx.accounts.config.paused = paused;
         msg!("Program paused state: {}", paused);
         Ok(())
     }
-
-    /// Initialize a vault for a specific token mint
     pub fn init_vault(ctx: Context<InitVault>) -> Result<()> {
         let vault_state = &mut ctx.accounts.vault_state;
         
