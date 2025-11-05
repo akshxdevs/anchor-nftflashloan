@@ -40,8 +40,9 @@ pub struct FlashLoanVault {
     pub fee_basis_points: u16,   // Optional fee (e.g., 10 = 0.1%)
     pub is_active: bool,         // Vault status
 }
-## Usage
+````
 
+## Usage
 ### Clone the Repo
 ```bash
 git clone https://github.com/akshxdevs/anchor-nftflashloan.git
@@ -52,7 +53,7 @@ Build the Project
 bashanchor build
 Test the Project
 bashanchor test
-
+````
 # **FlashLoanVault: NFT Flash Loans on Solana**
 
 **Flash loans for NFTs — trustless, instant, and fully on-chain.**  
