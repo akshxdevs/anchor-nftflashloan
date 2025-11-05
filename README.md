@@ -1,4 +1,4 @@
-markdown# Anchor-NFTFlashLoan
+# Anchor-NFTFlashLoan
 A Solana Anchor-based program implementing an **NFT flash loan** system with integrated escrow and repayment enforcement.
 ## Overview
 `anchor-nftflashloan` is a secure, on-chain **flash loan protocol for NFTs** built using the **Anchor framework** on Solana. It enables any user (the **borrower**) to borrow an NFT for the duration of a single transaction, use it in DeFi protocols (e.g., staking, lending, liquidations), and return it — **all atomically**. If the NFT is not returned or repayment conditions are unmet, the transaction reverts.
@@ -40,9 +40,11 @@ pub struct FlashLoanVault {
     pub fee_basis_points: u16,   // Optional fee (e.g., 10 = 0.1%)
     pub is_active: bool,         // Vault status
 }
-Usage
-Clone the Repo
-bashgit clone https://github.com/akshxdevs/anchor-nftflashloan.git
+## Usage
+
+### Clone the Repo
+```bash
+git clone https://github.com/akshxdevs/anchor-nftflashloan.git
 cd anchor-nftflashloan
 Install Dependencies
 bashyarn install
@@ -50,46 +52,62 @@ Build the Project
 bashanchor build
 Test the Project
 bashanchor test
-Example Flow
 
-Provider deposits NFT into FlashLoanVault via deposit_nft.
-Borrower calls borrow:
+# **FlashLoanVault: NFT Flash Loans on Solana**
 
-Specifies vault
-Provides callback (e.g., stake NFT in another protocol)
+**Flash loans for NFTs — trustless, instant, and fully on-chain.**  
+Atomic borrowing of NFTs with zero collateral. Perfect for DeFi composability, MEV, and cross-protocol interactions.
 
+---
 
-Callback executes with borrowed NFT.
-NFT auto-returned to vault via repay_nft in same tx.
-Fee (if any) transferred to provider.
-Events emitted for indexing.
+## **Example Flow**
 
+1. **Provider deposits NFT** into `FlashLoanVault` via `deposit_nft`.
+2. **Borrower calls `borrow`:**
+   - Specifies vault
+   - Provides callback (e.g., stake NFT in another protocol)
+3. **Callback executes** with borrowed NFT.
+4. **NFT auto-returned** to vault via `repay_nft` in same tx.
+5. **Fee (if any)** transferred to provider.
+6. **Events emitted** for indexing.
 
-If repayment fails → entire transaction reverts. No risk to lender.
+> **If repayment fails → entire transaction reverts. No risk to lender.**
 
-Key Files
+---
 
-programs/anchor-nftflashloan/src/lib.rs: Core program entrypoint and context definitions.
-programs/anchor-nftflashloan/src/instructions/:
+## **Key Files**
+programs/anchor-nftflashloan/src/lib.rs
+text> Core program entrypoint and context definitions.
+programs/anchor-nftflashloan/src/instructions/
+text- `deposit_nft.rs`  
+- `borrow.rs`  
+- `repay_nft.rs`  
+- `withdraw_nft.rs`
+programs/anchor-nftflashloan/src/state.rs
+text> `FlashLoanVault` and event structs.
+tests/anchor-nftflashloan.ts
+text> Full integration tests using mock callback programs.
 
-deposit_nft.rs
-borrow.rs
-repay_nft.rs
-withdraw_nft.rs
+---
 
+## **Events**
 
-programs/anchor-nftflashloan/src/state.rs: FlashLoanVault and event structs.
-tests/anchor-nftflashloan.ts: Full integration tests using mock callback programs.
+| Event               | Description |
+|---------------------|-----------|
+| **`BorrowEvent`**     | Emitted when flash loan starts (includes borrower, mint, timestamp) |
+| **`RepayEvent`**      | Emitted on successful repayment |
+| **`FeeCollectedEvent`** | Tracks fee amount and recipient |
 
-Events
+---
 
-EventDescriptionBorrowEventEmitted when flash loan starts (includes borrower, mint, timestamp)RepayEventEmitted on successful repaymentFeeCollectedEventTracks fee amount and recipient
-Requirements
+## **Requirements**
 
-Node.js ≥ 18
-Yarn
-Solana CLI
-Anchor CLI (avm install latest && avm use latest)
+- **Node.js ≥ 18**
+- **Yarn**
+- **Solana CLI**
+- **Anchor CLI**  
+  ```bash
+  avm install latest && avm use latest
 
 Security Notes
 
@@ -98,6 +116,7 @@ Reentrancy protected: Callback executed in controlled context.
 PDA authority: Only program can move NFT from vault.
 Fee overflow safe: Uses checked arithmetic.
 
+
 Use Cases
 
 NFT-backed liquidations
@@ -105,8 +124,10 @@ Cross-protocol yield farming
 Atomic NFT staking + borrowing
 MEV searchers arbitraging NFT floors
 
+
 License
 MIT
 
-Flash loans for NFTs — trustless, instant, and fully on-chain.
-See tests/ for full integration examples and programs/ for instruction logic.
+
+See tests/ for full integration examples
+See programs/ for instruction logic
